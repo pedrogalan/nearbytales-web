@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nearby Tales — A hands-free audio city guide</title>
+  <meta name="description" content="Nearby Tales reads the stories of nearby landmarks aloud as you walk. Keep your phone in your pocket and let the city speak. Available on iOS and Android." />
+  <meta property="og:title" content="Nearby Tales — A hands-free audio city guide" />
+  <meta property="og:description" content="GPS-guided audio stories of the places around you. Download for iOS and Android." />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter:wght@400;500&family=Marcellus&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Nearby Tales",
+    "applicationCategory": "TravelApplication",
+    "operatingSystem": "iOS, Android",
+    "description": "A hands-free audio city guide that detects nearby landmarks via GPS and reads their stories aloud."
+  }
+  </script>
+  <style>
+    :root {
+      --paper:      oklch(0.965 0.018 80);
+      --paper-deep: oklch(0.93 0.025 75);
+      --ink:        oklch(0.21 0.025 50);
+      --rust:       oklch(0.52 0.14 38);
+      --ochre:      oklch(0.74 0.13 75);
+      --muted-fg:   oklch(0.45 0.025 50);
+      --border:     oklch(0.88 0.022 70);
+      --shadow-soft: 0 1px 2px oklch(0.21 0.025 50 / 0.06), 0 8px 24px -8px oklch(0.21 0.025 50 / 0.12);
+      --shadow-card: 0 1px 2px oklch(0.21 0.025 50 / 0.05), 0 20px 40px -20px oklch(0.21 0.025 50 / 0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { width: 0; height: 0; }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: linear-gradient(180deg, var(--paper) 0%, oklch(0.93 0.03 70) 100%) fixed;
+      color: var(--ink);
+      font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: "Fraunces", ui-serif, Georgia, serif; letter-spacing: -0.015em; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .label {
+      font-family: "Inter", sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted-fg);
+    }
+
+    /* ── NAV ── */
+    nav.top {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 1.75rem 1.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .wordmark {
+      font-family: "Marcellus", ui-serif, Georgia, serif;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .wordmark img { width: 28px; height: 28px; }
+    .nav-links {
+      display: none;
+      list-style: none;
+      gap: 2rem;
+      font-size: 0.875rem;
+      color: var(--muted-fg);
+    }
+    .nav-links a:hover { color: var(--ink); transition: color 0.15s; }
+    .nav-cta {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 9999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .nav-cta:hover { opacity: 0.85; transition: opacity 0.15s; }
+    @media (min-width: 768px) {
+      .nav-links { display: flex; }
+      .nav-cta   { display: inline-flex; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+      display: grid;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .hero { grid-template-columns: 7fr 5fr; padding-top: 5rem; }
+    }
+    .hero-title {
+      font-family: "Marcellus", ui-serif, Georgia, serif;
+      font-size: clamp(44px, 7vw, 88px);
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      margin-top: 1.5rem;
+    }
+    .hero-title em {
+      font-family: "Fraunces", ui-serif, Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+    }
+    .hero-body {
+      margin-top: 1.75rem;
+      max-width: 36rem;
+      font-size: 1.0625rem;
+      color: var(--muted-fg);
+      line-height: 1.65;
+    }
+    .store-row {
+      margin-top: 2.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .rating {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: var(--muted-fg);
+    }
+    .stars { display: flex; gap: 0.2rem; color: var(--ochre); }
+
+    /* hero image */
+    .hero-photo {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+      box-shadow: var(--shadow-card);
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 460px;
+      object-fit: cover;
+    }
+    @media (min-width: 768px) { .hero-photo img { height: 560px; } }
+    .hero-caption {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      right: 1rem;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-family: "Inter", sans-serif;
+      color: var(--paper);
+    }
+    .hero-pullquote {
+      display: none;
+      position: absolute;
+      left: -2.5rem;
+      bottom: -2rem;
+      padding: 0.75rem 1rem;
+      border-radius: 9999px;
+      font-family: "Fraunces", serif;
+      font-style: italic;
+      font-size: 0.875rem;
+      background: var(--paper);
+      box-shadow: var(--shadow-soft);
+    }
+    @media (min-width: 768px) { .hero-pullquote { display: block; } }
+    .hero-image-wrap { position: relative; }
+
+    /* ── STORE BUTTON ── */
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-radius: 9999px;
+      padding: 0.75rem 1.5rem 0.75rem 1rem;
+      background: var(--ink);
+      color: var(--paper);
+      transition: transform 0.15s;
+    }
+    .store-btn:hover { transform: translateY(-2px); }
+    .store-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .btn-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      font-family: "Inter", sans-serif;
+      display: block;
+    }
+    .btn-name {
+      font-family: "Fraunces", ui-serif, Georgia, serif;
+      font-size: 1rem;
+      display: block;
+      line-height: 1.2;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .how-header { margin-bottom: 3rem; }
+    .how-title {
+      margin-top: 0.75rem;
+      font-size: clamp(1.875rem, 4vw, 3rem);
+      line-height: 1.2;
+    }
+    .how-title em { font-style: italic; font-weight: 300; }
+    .how-grid { display: grid; gap: 2rem; }
+    @media (min-width: 768px) { .how-grid { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
+    .item-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .item-num {
+      font-family: "Fraunces", serif;
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--muted-fg);
+    }
+    .item-rule { height: 1px; flex: 1; background: var(--border); }
+    .item-icon { color: var(--rust); }
+    .item-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .item-body { font-size: 0.875rem; color: var(--muted-fg); line-height: 1.6; }
+
+    /* ── QUOTE ── */
+    .quote {
+      max-width: 56rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
+      text-align: center;
+    }
+    .quote p {
+      font-family: "Fraunces", ui-serif, Georgia, serif;
+      font-style: italic;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      line-height: 1.35;
+    }
+    .quote-attr {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted-fg);
+    }
+
+    /* ── DOWNLOAD ── */
+    .download {
+      padding: 5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--paper-deep);
+    }
+    .download-inner { max-width: 56rem; margin: 0 auto; text-align: center; }
+    .download-title {
+      margin-top: 1rem;
+      font-family: "Marcellus", ui-serif, Georgia, serif;
+      font-size: clamp(2.25rem, 5vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+    .download-title em {
+      font-family: "Fraunces", serif;
+      font-style: italic;
+      font-weight: 300;
+    }
+    .download-body {
+      margin: 1.25rem auto 0;
+      color: var(--muted-fg);
+      max-width: 28rem;
+    }
+    .download-buttons {
+      margin-top: 2.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: var(--muted-fg);
+    }
+    @media (min-width: 768px) {
+      .footer-inner { flex-direction: row; justify-content: space-between; }
+    }
+    .footer-wordmark {
+      font-family: "Marcellus", ui-serif, Georgia, serif;
+      font-size: 16px;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--ink);
+    }
+    .footer-wordmark img { width: 20px; height: 20px; }
+    .footer-links { display: flex; gap: 1.25rem; }
+    .footer-links a:hover { color: var(--ink); transition: color 0.15s; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="top">
+      <a href="/" class="wordmark">
+        <img src="assets/nearby-tales-mark.png" alt="" width="28" height="28" />
+        Nearby Tales
+      </a>
+      <ul class="nav-links">
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#download">Download</a></li>
+      </ul>
+      <a href="#download" class="nav-cta">Get the app</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <p class="label">— A field guide for the curious walker</p>
+      <h1 class="hero-title">The world,<br /><em>read out loud.</em></h1>
+      <p class="hero-body">
+        Nearby Tales is a hands-free audio city guide. As you stroll, your phone quietly listens
+        to where you are and narrates the stories of the landmarks around you — so you can keep
+        looking up.
+      </p>
+      <div class="store-row">
+        <a href="#" class="store-btn" aria-label="Download on the App Store">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <span><span class="btn-label">Download on the</span><span class="btn-name">App Store</span></span>
+        </a>
+        <a href="#" class="store-btn" aria-label="Get it on Google Play">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.5c-.4.3-.6.8-.6 1.4v16.2c0 .6.2 1.1.6 1.4l9.3-9.5L3.6 2.5zm10.4 10.6 2.6 2.6-9.7 5.5 7.1-8.1zm0-2.2L6.9 2.8l9.7 5.5-2.6 2.6zm6.9 0c.7.4 1.1 1 1.1 1.6s-.4 1.2-1.1 1.6l-2.7 1.6-3-3 3-3 2.7 1.2z"/></svg>
+          <span><span class="btn-label">Get it on</span><span class="btn-name">Google Play</span></span>
+        </a>
+      </div>
+      <div class="rating">
+        <div class="stars" aria-label="Rated 4.8 out of 5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <span>4.8 · loved by curious walkers in 42 cities</span>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <div class="hero-photo">
+        <img src="assets/landing-hero.jpg" alt="A traveler walking down a sunlit Mediterranean alley" width="1280" height="1600" />
+        <p class="hero-caption">Plate I · Oltrarno, late afternoon</p>
+      </div>
+      <div class="hero-pullquote">"like a guide whispering in your ear"</div>
+    </div>
+  </section>
+
+  <section id="how" class="how">
+    <div class="how-header">
+      <p class="label">№ 01 — How it works</p>
+      <h2 class="how-title">A guidebook that <em>reads itself.</em></h2>
+    </div>
+    <div class="how-grid">
+      <article>
+        <div class="item-header">
+          <span class="item-num">01</span>
+          <span class="item-rule"></span>
+          <svg class="item-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3 class="item-title">It knows where you are</h3>
+        <p class="item-body">Quiet GPS listens for landmarks within your chosen radius — from 100 m to a kilometre.</p>
+      </article>
+      <article>
+        <div class="item-header">
+          <span class="item-num">02</span>
+          <span class="item-rule"></span>
+          <svg class="item-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg>
+        </div>
+        <h3 class="item-title">It tells you the story</h3>
+        <p class="item-body">A short, well-written narration plays through your headphones. No swiping, no screens.</p>
+      </article>
+      <article>
+        <div class="item-header">
+          <span class="item-num">03</span>
+          <span class="item-rule"></span>
+          <svg class="item-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16.2 7.8 2 22"/><path d="M12 2v10"/><path d="M2 12h10"/></svg>
+        </div>
+        <h3 class="item-title">You keep walking</h3>
+        <p class="item-body">Phone in your pocket, eyes on the city. Stories pause and resume as you wander.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="quote">
+    <p>"We made Nearby Tales for the kind of traveler who would rather feel a city than photograph it."</p>
+    <p class="quote-attr">— The editors</p>
+  </section>
+
+  <section id="download" class="download">
+    <div class="download-inner">
+      <p class="label">№ 02 — Download</p>
+      <h2 class="download-title">Bring it on your<br /><em>next walk.</em></h2>
+      <p class="download-body">Free to try. Available on iPhone and Android. Pack your headphones.</p>
+      <div class="download-buttons">
+        <a href="#" class="store-btn" aria-label="Download on the App Store">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <span><span class="btn-label">Download on the</span><span class="btn-name">App Store</span></span>
+        </a>
+        <a href="#" class="store-btn" aria-label="Get it on Google Play">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.5c-.4.3-.6.8-.6 1.4v16.2c0 .6.2 1.1.6 1.4l9.3-9.5L3.6 2.5zm10.4 10.6 2.6 2.6-9.7 5.5 7.1-8.1zm0-2.2L6.9 2.8l9.7 5.5-2.6 2.6zm6.9 0c.7.4 1.1 1 1.1 1.6s-.4 1.2-1.1 1.6l-2.7 1.6-3-3 3-3 2.7 1.2z"/></svg>
+          <span><span class="btn-label">Get it on</span><span class="btn-name">Google Play</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-wordmark">
+        <img src="assets/nearby-tales-mark.png" alt="" width="20" height="20" />
+        Nearby Tales
+      </span>
+      <p>© 2026 Nearby Tales · Made for walkers.</p>
+      <nav class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="mailto:hello@nearbytales.app">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+</body>
+</html>
